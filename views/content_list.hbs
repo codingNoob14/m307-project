@@ -1,0 +1,35 @@
+<h1>{{title}}</h1>
+
+{{#if items.length}}
+  <div class="grid grid--cards">
+    {{#each items}}
+      <article class="card">
+        <figure class="card__media">
+          <a href="/content/{{slug}}" aria-label="Details zu {{title}} öffnen">
+            <img src="{{imagePath}}" alt="{{title}}">
+          </a>
+        </figure>
+
+        <div class="card__body">
+          <h3 class="card__title">
+            <a href="/content/{{slug}}">{{title}}</a>
+          </h3>
+          <p class="card__meta">
+            {{category}} • von {{ownerName}}
+          </p>
+
+          {{#if (canEdit this ../currentUser)}}
+            <div class="card__actions" style="margin-top:.5rem; display:flex; gap:.5rem; flex-wrap:wrap;">
+              <a class="btn btn--sm" href="/content/{{slug}}/edit">Bearbeiten</a>
+              <form method="post" action="/content/{{slug}}/delete" style="display:inline;" onsubmit="return confirm('Eintrag löschen?');">
+                <button type="submit" class="btn btn--sm btn--danger">Löschen</button>
+              </form>
+            </div>
+          {{/if}}
+        </div>
+      </article>
+    {{/each}}
+  </div>
+{{else}}
+  <p>Noch keine Inhalte.</p>
+{{/if}}

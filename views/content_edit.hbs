@@ -1,0 +1,54 @@
+<div class="page--edit">
+  <h1>{{title}}</h1>
+
+  {{#if errors}}
+    <div class="alert alert--error" role="alert" aria-live="polite">
+      <ul>
+        {{#each errors}}<li>{{this}}</li>{{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <form method="post" enctype="multipart/form-data" class="form form--stack" autocomplete="off">
+    <div class="form__row">
+      <label for="title">Titel</label>
+      <input id="title" name="title" value="{{item.title}}" required>
+      <small class="form__hint">Kurzer, prägnanter Titel für Kachel & Detailseite.</small>
+    </div>
+
+    <div class="form__row">
+      <label for="description">Beschrieb</label>
+      <textarea id="description" name="description" rows="6" required>{{item.description}}</textarea>
+      <small class="form__hint">Empfehlung: 500–800 Zeichen.</small>
+    </div>
+
+    <div class="form__row">
+      <label for="category">Kategorie</label>
+      <select id="category" name="category" required>
+        {{#each categories}}
+          <option value="{{this}}" {{#if (eq ../item.category this)}}selected{{/if}}>{{this}}</option>
+        {{/each}}
+      </select>
+    </div>
+
+    <div class="form__row">
+      <label>Aktuelles Bild</label>
+      <figure class="detail__media">
+        <img src="{{item.imagePath}}" alt="Aktuelles Bild zu {{item.title}}">
+      </figure>
+      <small class="form__hint">Optional ein neues Bild hochladen – ersetzt das bestehende.</small>
+      <input type="file" name="image" accept="image/*">
+    </div>
+
+    <div class="form__row">
+      <label>URL-Slug</label>
+      <input value="{{item.slug}}" disabled>
+      <small class="form__hint">Slug bleibt stabil (SEO).</small>
+    </div>
+
+    <div class="form__actions">
+      <button type="submit" class="btn">Speichern</button>
+      <a href="/content/{{item.slug}}" class="btn btn--secondary">Abbrechen</a>
+    </div>
+  </form>
+</div>

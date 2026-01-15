@@ -1,0 +1,17 @@
+<h1>{{title}}</h1>
+
+{{#if users.length}}
+  <ul class="user-list">
+    {{#each users}}
+      <li>
+        #{{id}} – {{name}} ({{role}})
+        {{#if email}} • {{email}}{{/if}}
+        • erstellt am {{formatDate createdAt}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>Keine Benutzer gefunden.</p>
+{{/if}}
+
+

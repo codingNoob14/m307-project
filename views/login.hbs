@@ -1,0 +1,23 @@
+<h1>{{title}}</h1>
+
+{{#if errors}}
+  <ul class="errors" role="alert" aria-live="polite">
+    {{#each errors}}<li>{{this}}</li>{{/each}}
+  </ul>
+{{/if}}
+
+<form method="post" action="/login" class="form" novalidate>
+  <input type="hidden" name="next" value="{{next}}">
+
+  <label>E-Mail
+    <input type="email" name="email" value="{{values.email}}" required autocomplete="email" autofocus>
+  </label>
+
+  <label>Passwort
+    <input type="password" name="password" required autocomplete="current-password">
+  </label>
+
+  <button type="submit">Einloggen</button>
+</form>
+
+<p>Noch kein Konto? <a href="/register">Registrieren</a></p>

@@ -1,0 +1,21 @@
+<header class="site-header">
+  <nav class="nav">
+    <a class="brand" href="/">SSR+HBS</a>
+    <a href="/">Home</a>
+    <a href="/users">Users</a>
+    <a href="/about">About</a>
+    <a href="/content">Inhalte</a>
+    <span class="nav-spacer"></span>
+    {{#if currentUser}}
+      <a href="/content/new">Neu</a>
+      <span class="nav-user">Hallo, {{currentUser.name}}</span>
+      <form method="post" action="/logout" class="nav-logout" style="display:inline;">
+        <button type="submit">Logout</button>
+      </form>
+    {{else}}
+      <a href="/login">Login</a>
+      <a href="/register">Registrieren</a>
+    {{/if}}
+  </nav>
+</header>
+

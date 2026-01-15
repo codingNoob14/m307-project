@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{title}} – SSR Starter</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+    <link rel="stylesheet" href="/css/content_edit.css" />
+    <link rel="stylesheet" href="/css/content_new.css" />
+</head>
+
+<body>
+    {{> header}}
+
+    <main class="container">
+        {{{body}}}
+    </main>
+
+    {{> footer}}
+</body>
+
+</html>

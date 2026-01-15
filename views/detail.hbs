@@ -1,0 +1,12 @@
+<h1>{{item.title}}</h1>
+
+<figure class="hero">
+  <img src="{{item.imagePath}}" alt="{{item.title}}">
+  <figcaption class="meta">
+    {{item.category}} • von {{item.ownerName}} • {{formatDate item.createdAt}}
+  </figcaption>
+</figure>
+
+<p>{{item.description}}</p>
+
+<p><a href="/content">← Zur Übersicht</a></p>
