@@ -191,6 +191,63 @@ function migrate(instance) {
     CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email_nocase
     ON users(email COLLATE NOCASE);
   `);
+
+// --- Likes: User kann Inhalte liken (öffentlich sichtbare Anzahl) --- 
+
+  instance.exec(` 
+
+    CREATE TABLE IF NOT EXISTS likes ( 
+
+      user_id    INTEGER NOT NULL, 
+
+      content_id INTEGER NOT NULL, 
+
+      created_at TEXT    NOT NULL DEFAULT (datetime('now')), 
+
+      PRIMARY KEY (user_id, content_id), 
+
+      FOREIGN KEY(user_id)    REFERENCES users(id)    ON DELETE CASCADE, 
+
+      FOREIGN KEY(content_id) REFERENCES contents(id) ON DELETE CASCADE 
+
+    ); 
+
+    CREATE INDEX IF NOT EXISTS idx_likes_content ON likes(content_id); 
+
+    CREATE INDEX IF NOT EXISTS idx_likes_user    ON likes(user_id); 
+
+  `); 
+
+ 
+
+  // --- Favoriten: private Merkliste pro User --- 
+
+  instance.exec(` 
+
+    CREATE TABLE IF NOT EXISTS favorites ( 
+
+      user_id    INTEGER NOT NULL, 
+
+      content_id INTEGER NOT NULL, 
+
+      created_at TEXT    NOT NULL DEFAULT (datetime('now')), 
+
+      PRIMARY KEY (user_id, content_id), 
+
+      FOREIGN KEY(user_id)    REFERENCES users(id)    ON DELETE CASCADE, 
+
+      FOREIGN KEY(content_id) REFERENCES contents(id) ON DELETE CASCADE 
+
+    ); 
+
+    CREATE INDEX IF NOT EXISTS idx_fav_content ON favorites(content_id); 
+
+    CREATE INDEX IF NOT EXISTS idx_fav_user    ON favorites(user_id); 
+
+  `); 
+
+
+
 }
 
 // Einmaliger Demo-Seed (Marker in app_meta)
@@ -255,25 +312,49 @@ export function getContentBySlug(slug) {
 
   if (!db) return null; 
 
-  const row = db.prepare(`
-    SELECT
-      c.id, c.title, c.description, c.category, c.image_path, c.slug, c.created_at, u.name AS owner_name
-    FROM contents c
-    LEFT JOIN users u ON u.id = c.owner_id
-    WHERE c.slug = ?
-    LIMIT 1
-  `).get(slug);
-  if (!row) return null;
-  return {
-    id: row.id,
-    title: row.title,
-    description: row.description,
-    category: row.category,
-    imagePath: row.image_path,
-    slug: row.slug,
-    ownerName: row.owner_name,
-    createdAt: new Date(row.created_at)
-  };
+  const r = db.prepare(` 
+
+    SELECT 
+
+      c.id, c.title, c.description, c.category, c.image_path, c.slug, 
+
+      c.created_at, c.owner_id, u.name AS owner_name 
+
+    FROM contents c 
+
+    LEFT JOIN users u ON u.id = c.owner_id 
+
+    WHERE c.slug = ? 
+
+    LIMIT 1 
+
+  `).get(slug); 
+
+ 
+
+  if (!r) return null; 
+
+  return { 
+
+    id: r.id, 
+
+    title: r.title,
+
+    description: r.description, 
+
+    category: r.category, 
+
+    imagePath: r.image_path, 
+
+    slug: r.slug, 
+
+    ownerId: r.owner_id, 
+
+    ownerName: r.owner_name, 
+
+    createdAt: new Date(r.created_at), 
+
+  }; 
 
 } 
 
@@ -309,27 +390,75 @@ export function getContentById(id) {
 
  
 
-export function listContents() {
-  if (!db) return [];
-  const rows = db.prepare(`
-    SELECT
-      c.id, c.title, c.description, c.category, c.image_path, c.slug,
-      c.created_at, u.name AS owner_name
-    FROM contents c
-    LEFT JOIN users u ON u.id = c.owner_id
-    ORDER BY c.created_at DESC
-  `).all();
-  return rows.map(r => ({
-    id: r.id,
-    title: r.title,
-    description: r.description,
-    category: r.category,
-    imagePath: r.image_path,
-    slug: r.slug,
-    ownerName: r.owner_name,
-    createdAt: new Date(r.created_at),
-  }));
-}
+export function listContents() { 
+
+  if (!db) return []; 
+
+  const rows = db.prepare(` 
+
+    SELECT 
+
+      c.id, 
+
+      c.title, 
+
+      c.description, 
+
+      c.category, 
+
+      c.image_path, 
+
+      c.slug, 
+
+      c.created_at, 
+
+      c.owner_id, 
+
+      u.name AS owner_name, 
+
+      -- Like-Anzahl via Subselect 
+
+      (SELECT COUNT(*) 
+
+         FROM likes l 
+
+        WHERE l.content_id = c.id) AS like_count 
+
+    FROM contents c 
+
+    LEFT JOIN users u ON u.id = c.owner_id 
+
+    ORDER BY c.created_at DESC 
+
+  `).all(); 
+
+ 
+
+  return rows.map(r => ({ 
+
+    id: r.id, 
+
+    title: r.title, 
+
+    description: r.description, 
+
+    category: r.category, 
+
+    imagePath: r.image_path, 
+
+    slug: r.slug, 
+
+    ownerId: r.owner_id, 
+
+    ownerName: r.owner_name, 
+
+    likeCount: r.like_count ?? 0, 
+
+    createdAt: new Date(r.created_at), 
+
+  })); 
+
+} 
 
 export function updateContent({ id, title, description, category, imagePath }) {
   if (!db) return 0;
@@ -355,6 +484,227 @@ export function deleteContentById(id) {
   const stmt = db.prepare(`DELETE FROM contents WHERE id = ?`);
   return stmt.run(id).changes;
 }
+
+// ------- Likes ------- 
+
+ 
+
+// Anzahl Likes für einen Inhalt 
+
+export function getLikeCount(contentId) { 
+
+  if (!db) return 0; 
+
+  const row = db.prepare( 
+
+    `SELECT COUNT(*) AS c FROM likes WHERE content_id = ?` 
+
+  ).get(contentId); 
+
+  return row?.c ?? 0; 
+
+} 
+
+ 
+
+// Hat ein bestimmter User den Inhalt geliked? 
+
+export function hasUserLiked({ userId, contentId }) { 
+
+  if (!db) return false; 
+
+  const row = db.prepare(` 
+
+    SELECT 1 FROM likes 
+
+    WHERE user_id = ? AND content_id = ? 
+
+    LIMIT 1 
+
+  `).get(userId, contentId); 
+
+  return !!row; 
+
+} 
+
+ 
+
+// Like toggeln (an/aus). Gibt neuen Status + Count zurück. 
+
+export function toggleLike({ userId, contentId }) { 
+
+  if (!db) return { liked: false, count: 0 }; 
+
+ 
+
+  const liked = hasUserLiked({ userId, contentId }); 
+
+  if (liked) { 
+
+    db.prepare(` 
+
+      DELETE FROM likes 
+
+      WHERE user_id = ? AND content_id = ? 
+
+    `).run(userId, contentId); 
+
+  } else { 
+
+    db.prepare(` 
+
+      INSERT INTO likes (user_id, content_id) 
+
+      VALUES (?, ?) 
+
+    `).run(userId, contentId); 
+
+  } 
+
+  return { liked: !liked, count: getLikeCount(contentId) }; 
+
+} 
+
+ 
+
+// optional, falls du später im Grid markierte Likes brauchst 
+
+export function getUserLikedIds(userId) { 
+
+  if (!db) return new Set(); 
+
+  const rows = db.prepare(` 
+
+    SELECT content_id FROM likes WHERE user_id = ? 
+
+  `).all(userId); 
+
+  return new Set(rows.map(r => r.content_id)); 
+
+} 
+
+ 
+
+ 
+
+// ------- Favoriten ------- 
+
+ 
+
+// Ist dieser Inhalt in der Merkliste des Users? 
+
+export function isFavorite({ userId, contentId }) { 
+
+  if (!db) return false; 
+
+  const row = db.prepare(` 
+
+    SELECT 1 FROM favorites 
+
+    WHERE user_id = ? AND content_id = ? 
+
+    LIMIT 1 
+
+  `).get(userId, contentId); 
+
+  return !!row; 
+
+} 
+
+ 
+
+// Favorit toggeln (an/aus). Gibt neuen Status zurück. 
+
+export function toggleFavorite({ userId, contentId }) { 
+
+  if (!db) return { favorite: false }; 
+
+ 
+
+  const fav = isFavorite({ userId, contentId }); 
+
+  if (fav) { 
+
+    db.prepare(` 
+
+      DELETE FROM favorites 
+
+      WHERE user_id = ? AND content_id = ? 
+
+    `).run(userId, contentId); 
+
+  } else { 
+
+    db.prepare(` 
+
+      INSERT INTO favorites (user_id, content_id) 
+
+      VALUES (?, ?) 
+
+    `).run(userId, contentId); 
+
+  } 
+
+  return { favorite: !fav }; 
+
+} 
+
+ 
+
+// Liste aller Favoriten eines Users (für /me/favorites) 
+
+export function listFavoritesOfUser(userId) { 
+
+  if (!db) return []; 
+
+  const rows = db.prepare(` 
+
+    SELECT 
+
+      c.id, c.title, c.description, c.category, c.image_path, c.slug, 
+
+      c.created_at, u.name AS owner_name 
+
+    FROM favorites f 
+
+    JOIN contents c ON c.id = f.content_id 
+
+    LEFT JOIN users u ON u.id = c.owner_id 
+
+    WHERE f.user_id = ? 
+
+    ORDER BY f.created_at DESC 
+
+  `).all(userId); 
+
+ 
+
+  return rows.map(r => ({ 
+
+    id: r.id, 
+
+    title: r.title, 
+
+    description: r.description, 
+
+    category: r.category, 
+
+    imagePath: r.image_path, 
+
+    slug: r.slug, 
+
+    ownerName: r.owner_name, 
+
+    createdAt: new Date(r.created_at), 
+
+  })); 
+
+} 
+
+ 
+
+ 
+ 
 
 function ensureDatabase() {
   if (!Database) return null;
