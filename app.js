@@ -9,7 +9,15 @@ import fs from "node:fs";
 import crypto from "node:crypto";
 import multer from "multer";
 import { getAllUsers, getUserByEmail, createUser, insertContent, listContents, getContentBySlug, getContentById, updateContent, deleteContentById } from "./db/index.js";
+import { 
 
+  // … 
+
+  listContentsFiltered, 
+
+  listAuthors, 
+
+} from "./db/index.js"; 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -79,41 +87,99 @@ const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024
 // Kategorien
 const CATEGORIES = ["sifi", "krimi", "horror", "komödie"];
 
-// Handlebars konfigurieren
-app.engine(
-  "hbs",
-  engine({
-    extname: ".hbs",
-    defaultLayout: "main",
-    layoutsDir: path.join(__dirname, "views", "layouts"),
-    partialsDir: path.join(__dirname, "views", "partials"),
+/* ----------------------------- Handlebars ----------------------------- */ 
 
-      helpers: {
-        formatDate,
-        upper: (str) => String(str).toUpperCase(),
-        eq: (a, b) => a === b,
-        now: () => new Date(),
-        increment: (n) => Number(n) + 1,
-        decrement: (n) => Number(n) - 1,
-        gt: (a, b) => a > b,
-        lt: (a, b) => a < b,
-        canEdit(item, currentUser) {
-          if (!currentUser || !item) return false;
-          return currentUser.role === 'admin' || item.ownerId === currentUser.id;
-        },
-      },
-       
-      
-  }),
-);
-app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "views"));
+app.engine( 
+
+  "hbs", 
+
+  engine({ 
+
+    extname: ".hbs", 
+
+    defaultLayout: "main", 
+
+    layoutsDir: path.join(__dirname, "views", "layouts"), 
+
+    partialsDir: path.join(__dirname, "views", "partials"), 
+
+    helpers: { 
+
+      /* Text & Format */ 
+
+      upper: (s) => String(s ?? "").toUpperCase(), 
+
+      lower: (s) => String(s ?? "").toLowerCase(), 
+
+      formatDate, 
+
+      encodeURIComponent: (v) => encodeURIComponent(String(v ?? "")), 
+
+ 
+
+      /* Vergleiche/Logik */ 
+
+      eq:  (a, b) => a === b, 
+
+      ne:  (a, b) => a !== b, 
+
+      gt:  (a, b) => Number(a) >  Number(b), 
+
+      gte: (a, b) => Number(a) >= Number(b), 
+
+      lt:  (a, b) => Number(a) <  Number(b), 
+
+      lte: (a, b) => Number(a) <= Number(b), 
+
+      and: (...xs) => xs.slice(0, -1).every(Boolean), 
+
+      or:  (...xs) => xs.slice(0, -1).some(Boolean), 
+
+      not: (v) => !v, 
+
+ 
+
+      /* Zahlen/Kleinkram */ 
+
+      add:        (a, b) => Number(a) + Number(b), 
+
+      subtract:   (a, b) => Number(a) - Number(b), 
+
+      increment:  (n) => Number(n) + 1, 
+
+      decrement:  (n) => Number(n) - 1, 
+
+      length:     (v) => 
+
+        Array.isArray(v) || typeof v === "string" ? v.length : 0, 
+
+ 
+
+      /* Berechtigung */ 
+
+      canEdit(item, currentUser) { 
+
+        if (!currentUser || !item) return false; 
+
+        return currentUser.role === 'admin' || item.ownerId === currentUser.id; 
+
+      }, 
+
+    }, 
+
+  }) 
+
+); 
+
+app.set("view engine", "hbs"); 
+
+app.set("views", path.join(__dirname, "views")); 
 
 
 // Öffentliche Detailseite: /content/:slug 
 
 app.get("/content/:slug", (req, res, next) => { 
-
+app.engine
   const { slug } = req.params || {};
   const item = getContentBySlug(slug);
   if (!item) return next();
@@ -251,10 +317,44 @@ app.post("/content/:slug/delete", requireAuth, (req, res, next) => {
   });
 });
 
-// Öffentliche Liste
+// Öffentliche Liste (Filtern & Sortieren)
 app.get("/content", (req, res) => {
-  const items = listContents();
-  res.render("content_list", { title: "Inhalte", items });
+
+  const { category = "", author = "", sort = "newest" } = req.query || {};
+
+  const CATEGORIES = ["sifi", "krimi", "horror", "komödie"];
+
+  // Kategorie validieren
+  const validCategory = CATEGORIES.includes(category) ? category : "";
+
+  // Autor-ID validieren
+  const authorId = Number(author);
+  const validAuthorId = Number.isInteger(authorId) && authorId > 0 ? authorId : null;
+
+  // Sort validieren
+  const validSort = (sort === "likes") ? "likes" : "newest";
+
+  // Daten laden
+  const items = listContentsFiltered({
+    category: validCategory || null,
+    ownerId: validAuthorId || null,
+    sort: validSort,
+  });
+
+  const authors = listAuthors();
+
+  res.render("content_list", {
+    title: "Filme",
+    items,
+    categories: CATEGORIES,
+    authors,                         // [{ id, name }]
+    selectedCategory: validCategory, // UI-State
+    selectedAuthorId: validAuthorId, // UI-State
+    selectedSort: validSort,         // UI-State
+    currentUser: req.session.user || null,
+    hasFilterActive: !!(validCategory || validAuthorId || validSort === "likes"),
+  });
+
 });
 
 // Beispiel-Daten

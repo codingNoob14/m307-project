@@ -1,35 +1,153 @@
-<h1>{{title}}</h1>
+<h1>{{title}}</h1> 
 
-{{#if items.length}}
-  <div class="grid grid--cards">
-    {{#each items}}
-      <article class="card">
-        <figure class="card__media">
-          <a href="/content/{{slug}}" aria-label="Details zu {{title}} öffnen">
-            <img src="{{imagePath}}" alt="{{title}}">
-          </a>
-        </figure>
+ 
 
-        <div class="card__body">
-          <h3 class="card__title">
-            <a href="/content/{{slug}}">{{title}}</a>
-          </h3>
-          <p class="card__meta">
-            {{category}} • von {{ownerName}}
-          </p>
+<form method="get" action="/content" class="filters" style="margin:.75rem 0 1rem; display:flex; gap:.5rem; flex-wrap:wrap;"> 
 
-          {{#if (canEdit this ../currentUser)}}
-            <div class="card__actions" style="margin-top:.5rem; display:flex; gap:.5rem; flex-wrap:wrap;">
-              <a class="btn btn--sm" href="/content/{{slug}}/edit">Bearbeiten</a>
-              <form method="post" action="/content/{{slug}}/delete" style="display:inline;" onsubmit="return confirm('Eintrag löschen?');">
-                <button type="submit" class="btn btn--sm btn--danger">Löschen</button>
-              </form>
-            </div>
-          {{/if}}
-        </div>
-      </article>
-    {{/each}}
-  </div>
-{{else}}
-  <p>Noch keine Inhalte.</p>
-{{/if}}
+  <label> 
+
+    <span style="display:block; font-size:.9rem; color:#666;">Kategorie</span> 
+
+    <select name="category" onchange="this.form.submit()"> 
+
+      <option value="" {{#if (eq selectedCategory '')}}selected{{/if}}>Alle</option> 
+
+      {{#each categories}} 
+
+        <option value="{{this}}" {{#if (eq ../selectedCategory this)}}selected{{/if}}>{{this}}</option> 
+
+      {{/each}} 
+
+    </select> 
+
+  </label> 
+
+ 
+
+  <label> 
+
+    <span style="display:block; font-size:.9rem; color:#666;">Autor</span> 
+
+    <select name="author" onchange="this.form.submit()"> 
+
+      <option value="" {{#unless selectedAuthorId}}selected{{/unless}}>Alle</option> 
+
+      {{#each authors}} 
+
+        <option value="{{id}}" {{#if (eq ../selectedAuthorId id)}}selected{{/if}}>{{name}}</option> 
+
+      {{/each}} 
+
+    </select> 
+
+  </label> 
+
+ 
+
+  <label> 
+
+    <span style="display:block; font-size:.9rem; color:#666;">Sortieren</span> 
+
+    <select name="sort" onchange="this.form.submit()"> 
+
+      <option value="newest" {{#if (eq selectedSort 'newest')}}selected{{/if}}>Neueste zuerst</option> 
+
+      <option value="likes"  {{#if (eq selectedSort 'likes')}}selected{{/if}}>Meist geliked</option> 
+
+    </select> 
+
+  </label> 
+
+ 
+
+  <noscript><button type="submit">Anwenden</button></noscript> 
+
+ 
+
+  {{#if hasFilterActive}} 
+
+    <a href="/content" style="align-self:end; font-size:.9rem;">Filter zurücksetzen</a> 
+
+  {{/if}} 
+
+</form> 
+
+ 
+
+{{#if items.length}} 
+
+  <div class="grid grid--cards"> 
+
+    {{#each items}} 
+
+      <article class="card"> 
+
+        <a class="card__link" href="/content/{{slug}}" aria-label="Details zu {{title}} öffnen"></a> 
+
+ 
+
+        <figure class="card__media"> 
+
+          <img src="{{imagePath}}" alt="{{title}}"> 
+
+        </figure> 
+
+ 
+
+        <div class="card__body"> 
+
+          <h3 class="card__title"> 
+
+            <a href="/content/{{slug}}">{{title}}</a> 
+
+          </h3> 
+
+ 
+
+          <p class="card__meta"> 
+
+            {{category}} • von {{ownerName}} 
+
+          </p> 
+
+ 
+
+          <p class="card__likes"> 
+
+            ❤️ {{likeCount}} Like{{#if (gt likeCount 1)}}s{{/if}} 
+
+          </p> 
+
+ 
+
+          {{#if (canEdit this ../currentUser)}} 
+
+            <div class="card__actions" style="margin-top:.5rem; display:flex; gap:.5rem; flex-wrap:wrap;"> 
+
+              <a class="btn btn--sm" href="/content/{{slug}}/edit">Bearbeiten</a> 
+
+              <form method="post" action="/content/{{slug}}/delete" style="display:inline;" onsubmit="return confirm('Eintrag löschen?');"> 
+
+                <button type="submit" class="btn btn--sm btn--danger">Löschen</button> 
+
+              </form> 
+
+            </div> 
+
+          {{/if}} 
+
+        </div> 
+
+      </article> 
+
+    {{/each}} 
+
+  </div> 
+
+{{else}} 
+
+  <p>Noch keine Inhalte.</p> 
+
+{{/if}} 
+
+ 

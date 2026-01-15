@@ -786,3 +786,142 @@ export function createUser({ name, email, passwordHash, role = 'user' }) {
 }
 
 
+// Autorenliste für das Filter-Dropdown 
+
+export function listAuthors() { 
+
+  if (!db) return []; 
+
+  return db.prepare(` 
+
+    SELECT id, name 
+
+    FROM users 
+
+    ORDER BY name COLLATE NOCASE 
+
+  `).all(); 
+
+} 
+
+ 
+
+// Inhalte filtern + sortieren 
+
+// - category: "sifi" | "krimi" | "horror" | "komödie" | null 
+
+// - ownerId : number | null 
+
+// - sort    : "newest" | "likes" 
+
+export function listContentsFiltered({ category = null, ownerId = null, sort = 'newest' } = {}) { 
+
+  if (!db) return []; 
+
+  const where = []; 
+
+  const params = []; 
+
+ 
+
+  // Immer mind. 1 Bedingung, verhindert "WHERE ORDER BY"-Fehler 
+
+  where.push('1=1'); 
+
+  if (category) { 
+
+    where.push('c.category = ?'); 
+
+    params.push(category); 
+
+  } 
+
+  if (ownerId) { 
+
+    where.push('c.owner_id = ?'); 
+
+    params.push(ownerId); 
+
+  } 
+
+ 
+
+  const orderBy = 
+
+    sort === 'likes' 
+
+      ? 'COALESCE(lc.likeCount, 0) DESC, c.created_at DESC, c.id DESC' 
+
+      : 'c.created_at DESC, c.id DESC'; 
+
+  const rows = db.prepare(` 
+
+    SELECT 
+
+      c.id, 
+
+      c.title, 
+
+      c.description, 
+
+      c.category, 
+
+      c.image_path AS imagePath, 
+
+      c.slug, 
+
+      c.created_at, 
+
+      c.owner_id, 
+
+      u.name AS ownerName, 
+
+      COALESCE(lc.likeCount, 0) AS likeCount 
+
+    FROM contents c 
+
+    LEFT JOIN users u ON u.id = c.owner_id 
+
+    LEFT JOIN ( 
+
+      SELECT content_id, COUNT(*) AS likeCount 
+
+      FROM likes 
+
+      GROUP BY content_id 
+
+    ) lc ON lc.content_id = c.id 
+
+    WHERE ${where.join(' AND ')} 
+
+    ORDER BY ${orderBy} 
+
+  `).all(...params); 
+
+ 
+
+  return rows.map(r => ({ 
+
+    id: r.id, 
+
+    title: r.title, 
+
+    description: r.description, 
+
+    category: r.category, 
+
+    imagePath: r.imagePath, 
+
+    slug: r.slug, 
+
+    ownerId: r.owner_id, 
+
+    ownerName: r.ownerName, 
+
+    likeCount: r.likeCount ?? 0, 
+
+    createdAt: new Date(r.created_at), 
+
+  })); 
+
+} 

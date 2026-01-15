@@ -1,5 +1,193 @@
-<section>
-  <h1>Hallo {{name}}!</h1>
-  <p>Heute ist der {{formatDate today}}.</p>
-  <p class="intro">Das ist eine kleine SSR‑Seite mit Handlebars.</p> 
-</section>
+h1>{{title}}</h1> 
+
+ 
+
+{{#if groups.length}} 
+
+  {{#each groups}} 
+
+    <section class="category-block" style="margin-block:2rem;"> 
+
+      <header class="category-block__header" style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.75rem;"> 
+
+        <h2 class="category-block__title">Neuste Filme in: {{category}}</h2> 
+
+     <a class="category-block__more" 
+
+   href="/content?category={{encodeURIComponent category}}"> 
+
+  Alle anzeigen → 
+
+</a> 
+
+      </header> 
+
+ 
+
+      {{#if items.length}} 
+
+        <div class="grid grid--cards"> 
+
+          {{#each items}} 
+
+            <article class="card"> 
+
+              <figure class="card__media"> 
+
+                <a href="/content/{{slug}}" aria-label="Details zu {{title}} öffnen"> 
+
+                  <img src="{{imagePath}}" alt="{{title}}"> 
+
+                </a> 
+
+              </figure> 
+
+ 
+
+              <div class="card__body"> 
+
+                <h3 class="card__title"> 
+
+                  <a href="/content/{{slug}}">{{title}}</a> 
+
+                </h3> 
+
+ 
+
+                <p class="card__meta"> 
+
+                  {{category}} • von {{ownerName}} 
+
+                </p> 
+
+ 
+
+                <p class="card__likes"> 
+
+                  ❤️ {{likeCount}} Like{{#if (gt likeCount 1)}}s{{/if}} 
+
+                </p> 
+
+ 
+
+                {{#if (canEdit this ../../currentUser)}} 
+
+                  <div class="card__actions" style="margin-top:.5rem; display:flex; gap:.5rem; flex-wrap:wrap;"> 
+
+                    <a class="btn btn--sm" href="/content/{{slug}}/edit">Bearbeiten</a> 
+
+                    <form method="post" action="/content/{{slug}}/delete" style="display:inline;" onsubmit="return confirm('Eintrag löschen?');"> 
+
+                      <button type="submit" class="btn btn--sm btn--danger">Löschen</button> 
+
+                    </form> 
+
+                  </div> 
+
+                {{/if}} 
+
+              </div> 
+
+            </article> 
+
+          {{/each}} 
+
+        </div> 
+
+      {{else}} 
+
+        <p>In <em>{{category}}</em> sind noch keine Filme vorhanden.</p> 
+
+      {{/if}} 
+
+    </section> 
+
+  {{/each}} 
+
+ 
+
+  {{!-- Bestbewertete Filme --}} 
+
+{{#if topRated.length}} 
+
+<section class="top-rated" style="margin-block:2rem;"> 
+
+  <header class="category-block__header" style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.75rem;"> 
+
+    <h2 class="category-block__title">Bestbewertete Filme aller Zeiten</h2> 
+
+    <a class="category-block__more" href="/content?sort=likes">Alle anzeigen →</a> 
+
+  </header> 
+
+ 
+
+  <div class="grid grid--cards"> 
+
+    {{#each topRated}} 
+
+      <article class="card"> 
+
+        <figure class="card__media"> 
+
+          <a href="/content/{{slug}}" aria-label="Details zu {{title}} öffnen"> 
+
+            <img src="{{imagePath}}" alt="{{title}}"> 
+
+          </a> 
+
+        </figure> 
+
+ 
+
+        <div class="card__body"> 
+
+          <h3 class="card__title"><a href="/content/{{slug}}">{{title}}</a></h3> 
+
+          <p class="card__meta">{{category}} • von {{ownerName}}</p> 
+
+          <p class="card__likes">❤️ {{likeCount}} Like{{#if (gt likeCount 1)}}s{{/if}}</p> 
+
+ 
+
+          {{#if (canEdit this ../currentUser)}} 
+
+            <div class="card__actions" style="margin-top:.5rem; display:flex; gap:.5rem; flex-wrap:wrap;"> 
+
+              <a class="btn btn--sm" href="/content/{{slug}}/edit">Bearbeiten</a> 
+
+              <form method="post" action="/content/{{slug}}/delete" style="display:inline;" onsubmit="return confirm('Eintrag löschen?');"> 
+
+                <button type="submit" class="btn btn--sm btn--danger">Löschen</button> 
+
+              </form> 
+
+            </div> 
+
+          {{/if}} 
+
+        </div> 
+
+      </article> 
+
+    {{/each}} 
+
+  </div> 
+
+</section> 
+
+{{/if}} 
+
+ 
+
+{{else}} 
+
+  <p>Noch keine Kategorien/Filme vorhanden.</p> 
+
+{{/if}} 
+
+ 
+
+ 
+
+ 
