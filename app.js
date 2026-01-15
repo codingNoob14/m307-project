@@ -357,12 +357,7 @@ app.get("/content", (req, res) => {
 
 });
 
-// Beispiel-Daten
-const users = [
-  { id: 1, name: "Max", role: "admin", createdAt: new Date("2024-11-02") },
-  { id: 2, name: "Erika", role: "user", createdAt: new Date("2025-01-15") },
-  { id: 3, name: "Sam", role: "editor", createdAt: new Date("2025-07-01") },
-];
+
 
 // Routen
 app.get("/", (req, res) => {
