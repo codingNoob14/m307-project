@@ -97,11 +97,9 @@
 
  
 
-          <p class="card__likes"> 
+          <a class="card__likes">❤️{{likeCount}}{{#if (gt likeCount 1)}}{{/if}} 
 
-            ❤️ {{likeCount}}{{#if (gt likeCount 1)}}{{/if}} 
-
-          </p> 
+          </a> 
  
 
           {{#if (canEdit this ../currentUser)}} 

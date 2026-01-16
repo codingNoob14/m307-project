@@ -246,28 +246,7 @@ function migrate(instance) {
 
 }
 
-// Einmaliger Demo-Seed (Marker in app_meta)
-const DEMO_SEED_KEY = 'demo_seed_v1';
-function seedDemoOnce(instance) {
-  const already = instance.prepare('SELECT 1 FROM app_meta WHERE key = ? LIMIT 1').get(DEMO_SEED_KEY);
-  if (already) return;
 
-  const insertUser = instance.prepare(`
-    INSERT INTO users (name, role, created_at)
-    VALUES (?, ?, datetime('now'))
-  `);
-  
-  
-  const markSeed   = instance.prepare('INSERT INTO app_meta (key, value) VALUES (?, ?)');
-  const tx = instance.transaction(() => {
-    insertUser.run('Max', 'admin');
-    insertUser.run('Erika', 'user');
-    insertUser.run('Sam', 'editor');
-    markSeed.run(DEMO_SEED_KEY, new Date().toISOString());
-  });
-  tx();
-  console.log('[db] Demo-Seed angewendet (users).');
-}
 
 
 // Inhalte einfügen – Erzeugt automatisch einen EINDEUTIGEN slug aus dem Titel. 
@@ -711,8 +690,7 @@ function ensureDatabase() {
 
   const instance = new Database(dbPath, {}); // { verbose: console.log } zum Debuggen
   migrate(instance);
-  seedDemoOnce(instance);
-  // … nach seedDemoOnce(instance);
+
 instance.pragma('wal_checkpoint(FULL)');
   return instance;
 }
@@ -742,14 +720,7 @@ export function getAllUsers() {
     email: r.email || null,
     createdAt: new Date(r.created_at),
   }));
-    
-  return rows.map(r => ({
-    id: r.id,
-    name: r.name,
-    role: r.role,
-    email: r.email || null,
-    createdAt: new Date(r.created_at),
-  }));
+  
 }
 
 export function insertUser(name, role = 'user') {
