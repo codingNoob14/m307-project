@@ -351,7 +351,7 @@ app.get("/content", (req, res) => {
 
 
 
-// Routen
+// Routes
 app.get("/", (req, res) => {
   res.render("home", {
     title: "Startseite",
@@ -366,7 +366,7 @@ app.get("/about", (req, res) => {
   });
 });
 
-// second function that prohibits access for non-admin users. Acess only for admins (ich habe diese Funktion selbst geschrieben und bin schon ein wenig stolz hahaha :D)
+// second function that prohibits access for non-admin users. Acess only for admins (ich habe diese Funktion selbst geschrieben und bin schon ein wenig stolz haha LG Emil :D)
 function requireAdmin(req, res, next) {
   const user = req.session.user;
   if (!user) {
