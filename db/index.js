@@ -103,11 +103,7 @@ function migrate(instance) {
     CREATE INDEX IF NOT EXISTS idx_contents_category ON contents(category);
     CREATE INDEX IF NOT EXISTS idx_contents_owner ON contents(owner_id);
   `);
-  instance.exec(`
-    DROP INDEX IF EXISTS idx_users_email_unique;
-    CREATE UNIQUE INDEX IF NOT EXISTS idx_users_email_nocase
-    ON users(email COLLATE NOCASE);
-  `);
+  
   instance.exec(`
     UPDATE users
     SET created_at = datetime('now')
@@ -256,10 +252,10 @@ function seedDemoOnce(instance) {
   const already = instance.prepare('SELECT 1 FROM app_meta WHERE key = ? LIMIT 1').get(DEMO_SEED_KEY);
   if (already) return;
 
-  const info = db.prepare(`
+  const insertUser = instance.prepare(`
     INSERT INTO users (name, role, created_at)
     VALUES (?, ?, datetime('now'))
-  `).run(name, role);
+  `);
   
   
   const markSeed   = instance.prepare('INSERT INTO app_meta (key, value) VALUES (?, ?)');
