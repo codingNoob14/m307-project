@@ -54,6 +54,7 @@ app.get("/users", requireAuth, (req, res) => {
 });
 
 
+
 const PORT = process.env.PORT || 3000;
 
 // Static files (z. B. CSS)
@@ -469,3 +470,4 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server läuft: http://localhost:${PORT}`);
 });
+
