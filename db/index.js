@@ -91,7 +91,7 @@ function migrate(instance) {
       id          INTEGER PRIMARY KEY AUTOINCREMENT,
       title       TEXT NOT NULL,
       description TEXT NOT NULL,
-      category    TEXT NOT NULL CHECK(category IN ('sifi','krimi','horror','komödie')),
+      category    TEXT NOT NULL CHECK(category IN ('Flying','Automatic','Manual')),
       image_path  TEXT NOT NULL,
       owner_id    INTEGER NOT NULL,
       slug        TEXT,
@@ -808,7 +808,7 @@ export function listAuthors() {
 
 // Inhalte filtern + sortieren 
 
-// - category: "sifi" | "krimi" | "horror" | "komödie" | null 
+// - category: "" | "Flying" | "Automatic" | "Manual" | null 
 
 // - ownerId : number | null 
 

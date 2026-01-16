@@ -86,7 +86,7 @@ function fileFilter(req, file, cb) {
 const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
 
 // Kategorien
-const CATEGORIES = ["sifi", "krimi", "horror", "komödie"];
+const CATEGORIES = ["Flying", "Automatic", "Manual"];
 
 /* ----------------------------- Handlebars ----------------------------- */ 
 
@@ -323,7 +323,7 @@ app.get("/content", (req, res) => {
 
   const { category = "", author = "", sort = "newest" } = req.query || {};
 
-  const CATEGORIES = ["sifi", "krimi", "horror", "komödie"];
+  const CATEGORIES = ["Flying", "Automatic", "Manual"];
 
   // Kategorie validieren
   const validCategory = CATEGORIES.includes(category) ? category : "";

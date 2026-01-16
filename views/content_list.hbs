@@ -24,23 +24,7 @@
 
  
 
-  <label> 
 
-    <span style="display:block; font-size:.9rem; color:#666;">Autor</span> 
-
-    <select name="author" onchange="this.form.submit()"> 
-
-      <option value="" {{#unless selectedAuthorId}}selected{{/unless}}>Alle</option> 
-
-      {{#each authors}} 
-
-        <option value="{{id}}" {{#if (eq ../selectedAuthorId id)}}selected{{/if}}>{{name}}</option> 
-
-      {{/each}} 
-
-    </select> 
-
-  </label> 
 
  
 
@@ -98,7 +82,7 @@
 
           <h3 class="card__title"> 
 
-            <a href="/content/{{slug}}">{{title}}</a> 
+            <p>{{title}}</p>
 
           </h3> 
 
@@ -106,7 +90,7 @@
 
           <p class="card__meta"> 
 
-            {{category}} • von {{ownerName}} 
+            {{category}} {{description}}
 
           </p> 
 
@@ -114,10 +98,9 @@
 
           <p class="card__likes"> 
 
-            ❤️ {{likeCount}} Like{{#if (gt likeCount 1)}}s{{/if}} 
+            ❤️ {{likeCount}}{{#if (gt likeCount 1)}}{{/if}} 
 
           </p> 
-
  
 
           {{#if (canEdit this ../currentUser)}} 

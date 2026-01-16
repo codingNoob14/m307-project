@@ -2,13 +2,14 @@
   <nav class="nav">
     <a class="brand" href="/">SSR+HBS</a>
     <a href="/">Home</a>
-    <a href="/users">Users</a>
+    
     <a href="/about">About</a>
     <a href="/content">Inhalte</a>
     <span class="nav-spacer"></span>
     {{#if currentUser}}
 
     {{#if (eq currentUser.role "admin")}}
+    <a href="/users">Users</a>
       <a href="/content/new">Neu</a>
     {{/if}}
 
