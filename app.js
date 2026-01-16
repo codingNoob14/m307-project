@@ -29,41 +29,32 @@ app.use(session({
   cookie: { httpOnly: true, maxAge: 1000 * 60 * 60 * 8 } // 8h
 }));
 
-// currentUser für Header/Views
+// currentUser for Header/Views
 app.use((req, res, next) => {
   res.locals.currentUser = req.session.user || null;
   next();
 });
 
-//Route-Schutz
+//Route protection
 function requireAuth(req, res, next) {
   if (!req.session.user) {
     return res.redirect("/login?next=" + encodeURIComponent(req.originalUrl || "/"));
   }
   next();
 }
-// Seite /user nur wenn eingeloggt anzeigen
-app.get("/users", requireAuth, (req, res) => {
-  try {
-    const users = getAllUsers();
-    res.render("users", { title: "Benutzer", users });
-  } catch (err) {
-    console.error("[/users] Fehler:", err);
-    res.status(500).render("about", { title: "Fehler beim Laden der Benutzer" });
-  }
-});
+
 
 
 
 const PORT = process.env.PORT || 3000;
 
-// Static files (z. B. CSS)
+// Static files
 app.use(express.static(path.join(__dirname, "public")));
 
-// Body-Parser für Formulare (application/x-www-form-urlencoded)
+// form data parsen
 app.use(express.urlencoded({ extended: false }));
 
-// Upload-Ordner sicherstellen und Multer konfigurieren
+// configure multer for file uploads
 const uploadDir = path.join(__dirname, "public", "uploads");
 fs.mkdirSync(uploadDir, { recursive: true });
 
@@ -85,7 +76,7 @@ function fileFilter(req, file, cb) {
 
 const upload = multer({ storage, fileFilter, limits: { fileSize: 5 * 1024 * 1024 } });
 
-// Kategorien
+// watch-categories
 const CATEGORIES = ["Flying", "Automatic", "Manual"];
 
 /* ----------------------------- Handlebars ----------------------------- */ 
@@ -118,7 +109,7 @@ app.engine(
 
  
 
-      /* Vergleiche/Logik */ 
+      /* comparison logic */ 
 
       eq:  (a, b) => a === b, 
 
@@ -140,7 +131,7 @@ app.engine(
 
  
 
-      /* Zahlen/Kleinkram */ 
+      /* numbers */ 
 
       add:        (a, b) => Number(a) + Number(b), 
 
@@ -156,11 +147,11 @@ app.engine(
 
  
 
-      /* Berechtigung */ 
+      /* permissions */ 
 
       canEdit(item, currentUser) { 
 
-        if (!currentUser || !item) return false; 
+        if (!currentUser|| !item) return false; 
 
         return currentUser.role === 'admin' || item.ownerId === currentUser.id; 
 
@@ -375,7 +366,21 @@ app.get("/about", (req, res) => {
   });
 });
 
-app.get("/users", (req, res) => {
+// second function that prohibits access for non-admin users. Acess only for admins (ich habe diese Funktion selbst geschrieben und bin schon ein wenig stolz hahaha :D)
+function requireAdmin(req, res, next) {
+  const user = req.session.user;
+  if (!user) {
+    return res.redirect("/login?next=" + encodeURIComponent(req.originalUrl || "/"));
+  }
+  if (user.role !== "admin") {
+    return res.status(403).render("about", { title: "403 – Kein Zugriff" });
+  }
+  next();
+}
+
+
+//added protection so only admins and owners can see user list
+app.get("/users", requireAdmin,(req, res) => {
   try {
     const users = getAllUsers();
     res.render("users", { title: "Benutzer", users });
@@ -470,4 +475,5 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server läuft: http://localhost:${PORT}`);
 });
+
 

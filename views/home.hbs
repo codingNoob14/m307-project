@@ -1,193 +1,20 @@
-<h1>Hallo {{currentUser.name}}</h1> 
+<h1>Richard Jones<h1/>
+<h2>THE BRAND</h2>
+<p>The first watch to carry Richard Jones’s name, the RJ 001 Tourbillon, launched the millennium and marked the beginning of a new era in watchmaking.</p>
+<h2>SINCE 2025</h2>
+<p>Since its inception in 2025, Richard Jones has been synonymous with innovation, craftsmanship, and timeless design. Each timepiece is a testament to our commitment to excellence and our passion for horology.</p>
+<h2>A NEW ERA IN WATCHMAKING</h2>
+<p>The RM 001 Tourbillon, the first watch ever to bear the Richard Mille name, literally and figuratively launched the millennium: the year was 2001, and the model marked the beginning of a new era in watchmaking. Today, the collection’s more than eighty models point resolutely towards the future, whilst holding steadfast to the time-honoured traditions of fine watchmaking.
 
- 
 
-{{#if groups.length}} 
 
-  {{#each groups}} 
+Like that landmark watch, the RM 001, Richard Mille’s success is a product of three crucial elements: the best of cutting edge innovative technology, a strong artistic and architectural dimension, and watches designed to be robust and easy to use, yet also highly sophisticated. Each piece is finished and assembled by hand, reflecting the very best in Haute Horlogerie.</p>
 
-    <section class="category-block" style="margin-block:2rem;"> 
+<h2>MATERIALS INNOVATION
+</h2>
 
-      <header class="category-block__header" style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.75rem;"> 
+<p>From the very inception of the brand, Richard Mille endeavoured to apply to watchmaking techniques and materials found in the most innovative sectors, such as Formula 1 race car development or the aerospace industry, always with the goal of creating an extreme timepiece that was both uncompromising and gimmick-free.
 
-        <h2 class="category-block__title">Neuste Filme in: {{category}}</h2> 
 
-     <a class="category-block__more" 
 
-   href="/content?category={{encodeURIComponent category}}"> 
-
-  Alle anzeigen → 
-
-</a> 
-
-      </header> 
-
- 
-
-      {{#if items.length}} 
-
-        <div class="grid grid--cards"> 
-
-          {{#each items}} 
-
-            <article class="card"> 
-
-              <figure class="card__media"> 
-
-                <a href="/content/{{slug}}" aria-label="Details zu {{title}} öffnen"> 
-
-                  <img src="{{imagePath}}" alt="{{title}}"> 
-
-                </a> 
-
-              </figure> 
-
- 
-
-              <div class="card__body"> 
-
-                <h3 class="card__title"> 
-
-                  <a href="/content/{{slug}}">{{title}}</a> 
-
-                </h3> 
-
- 
-
-                <p class="card__meta"> 
-
-                  {{category}} • von {{ownerName}} 
-
-                </p> 
-
- 
-
-                <p class="card__likes"> 
-
-                  ❤️ {{likeCount}} Like{{#if (gt likeCount 1)}}s{{/if}} 
-
-                </p> 
-
- 
-
-                {{#if (canEdit this ../../currentUser)}} 
-
-                  <div class="card__actions" style="margin-top:.5rem; display:flex; gap:.5rem; flex-wrap:wrap;"> 
-
-                    <a class="btn btn--sm" href="/content/{{slug}}/edit">Bearbeiten</a> 
-
-                    <form method="post" action="/content/{{slug}}/delete" style="display:inline;" onsubmit="return confirm('Eintrag löschen?');"> 
-
-                      <button type="submit" class="btn btn--sm btn--danger">Löschen</button> 
-
-                    </form> 
-
-                  </div> 
-
-                {{/if}} 
-
-              </div> 
-
-            </article> 
-
-          {{/each}} 
-
-        </div> 
-
-      {{else}} 
-
-        <p>In <em>{{category}}</em> sind noch keine Filme vorhanden.</p> 
-
-      {{/if}} 
-
-    </section> 
-
-  {{/each}} 
-
- 
-
-  {{!-- Bestbewertete Filme --}} 
-
-{{#if topRated.length}} 
-
-<section class="top-rated" style="margin-block:2rem;"> 
-
-  <header class="category-block__header" style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.75rem;"> 
-
-    <h2 class="category-block__title">Bestbewertete Filme aller Zeiten</h2> 
-
-    <a class="category-block__more" href="/content?sort=likes">Alle anzeigen →</a> 
-
-  </header> 
-
- 
-
-  <div class="grid grid--cards"> 
-
-    {{#each topRated}} 
-
-      <article class="card"> 
-
-        <figure class="card__media"> 
-
-          <a href="/content/{{slug}}" aria-label="Details zu {{title}} öffnen"> 
-
-            <img src="{{imagePath}}" alt="{{title}}"> 
-
-          </a> 
-
-        </figure> 
-
- 
-
-        <div class="card__body"> 
-
-          <h3 class="card__title"><a href="/content/{{slug}}">{{title}}</a></h3> 
-
-          <p class="card__meta">{{category}} • von {{ownerName}}</p> 
-
-          <p class="card__likes">❤️ {{likeCount}} Like{{#if (gt likeCount 1)}}s{{/if}}</p> 
-
- 
-
-          {{#if (canEdit this ../currentUser)}} 
-
-            <div class="card__actions" style="margin-top:.5rem; display:flex; gap:.5rem; flex-wrap:wrap;"> 
-
-              <a class="btn btn--sm" href="/content/{{slug}}/edit">Bearbeiten</a> 
-
-              <form method="post" action="/content/{{slug}}/delete" style="display:inline;" onsubmit="return confirm('Eintrag löschen?');"> 
-
-                <button type="submit" class="btn btn--sm btn--danger">Löschen</button> 
-
-              </form> 
-
-            </div> 
-
-          {{/if}} 
-
-        </div> 
-
-      </article> 
-
-    {{/each}} 
-
-  </div> 
-
-</section> 
-
-{{/if}} 
-
- 
-
-{{else}} 
-
-  <p>Noch keine Kategorien/Filme vorhanden.</p> 
-
-{{/if}} 
-
- 
-
- 
-
- 
+The brand has laid claim to a number of world innovations in the application, use and design of new technological materials that have vastly extended the field of horological knowledge and invention.<p/>
