@@ -4,7 +4,7 @@ import { requireAdmin } from "../middleware/auth.js";
 
 const router = express.Router();
 
-// added protection so only admins and owners can see user list
+// added protection so only aadmins and owners can see user list
 router.get("/users", requireAdmin, (req, res) => {
   try {
     const users = getAllUsers();

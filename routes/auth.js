@@ -48,10 +48,10 @@ router.post("/register", async (req, res) => {
     email: email.trim().toLowerCase(),
     role: "user"
   };
-  res.redirect("/users");
+  res.redirect("/");
 });
 
-// --- Login
+// --- Login (automatically sends the user to the homepoage after login)
 router.get("/login", (req, res) => {
   res.render("login", { title: "Login", next: req.query.next || "" });
 });
@@ -82,11 +82,11 @@ router.post("/login", async (req, res) => {
     email: user.email,
     role: user.role
   };
-  const redirectTo = nextUrl && /^\/[^\s]*$/.test(nextUrl) ? nextUrl : "/users";
+  const redirectTo = nextUrl && /^\/[^\s]*$/.test(nextUrl) ? nextUrl : "/";
   res.redirect(redirectTo);
 });
 
-// --- Logout
+// --- Logout 
 router.post("/logout", (req, res) => {
   req.session.destroy(() => res.redirect("/"));
 });

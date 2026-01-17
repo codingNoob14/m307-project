@@ -10,7 +10,7 @@ import {
   listContentsFiltered,
   listAuthors
 } from "../db/index.js";
-import { requireAuth, requireOwnerOrAdmin } from "../middleware/auth.js";
+import { requireAdmin, requireAuth, requireOwnerOrAdmin } from "../middleware/auth.js";
 import { upload, uploadDir } from "../middleware/upload.js";
 import { CATEGORIES } from "../config/content.js";
 import { rootDir } from "../config/paths.js";
@@ -27,7 +27,7 @@ router.get("/content/:slug", (req, res, next) => {
 });
 
 // Formular (nur eingeloggte User)
-router.get("/content/new", requireAuth, (req, res) => {
+router.get("/content/new", requireAdmin, (req, res) => {
   res.render("content_new", { title: "Neuer Inhalt", categories: CATEGORIES });
 });
 
@@ -72,7 +72,7 @@ router.post("/content", requireAuth, upload.single("image"), (req, res) => {
 });
 
 // Edit Form anzeigen
-router.get("/content/:slug/edit", requireAuth, (req, res, next) => {
+router.get("/content/:slug/edit", requireAuth, requireAdmin, (req, res, next) => {
   const item = getContentBySlug(req.params.slug);
   if (!item) return next();
   res.locals.item = getContentById(item.id); // für requireOwnerOrAdmin
