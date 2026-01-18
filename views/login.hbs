@@ -1,23 +1,37 @@
-<h1>{{title}}</h1>
 
+
+
+    <img src="/img/4-1.jpg" alt="BackgroundImage" class="loginRegisterBackgroundImage">
+<div class="loginFormContainer">
+  <div class="loginForm">
+
+<h1>{{title}}</h1>
+<div class="loginFormInputs">
+
+
+<form method="post" action="/login" class="form" novalidate>
+  <input type="hidden" name="next" value="{{next}}">
+
+  
+    <input type="email" name="email" value="{{values.email}}" required autocomplete="email" autofocus placeholder="E-Mail" class="loginEmail">
+  
+<br>
+
+    <input type="password" name="password" required autocomplete="current-password" placeholder="Password" class="loginPassword">
+
+<br>
+  <button type="submit" class="loginSubmit">Einloggen</button>
+</form>
+
+</div>
 {{#if errors}}
   <ul class="errors" role="alert" aria-live="polite">
     {{#each errors}}<li>{{this}}</li>{{/each}}
   </ul>
 {{/if}}
 
-<form method="post" action="/login" class="form" novalidate>
-  <input type="hidden" name="next" value="{{next}}">
+<p>Don't have an account? <a href="/register">Register</a></p>
+  </div>
 
-  <label>E-Mail
-    <input type="email" name="email" value="{{values.email}}" required autocomplete="email" autofocus>
-  </label>
+</div>
 
-  <label>Passwort
-    <input type="password" name="password" required autocomplete="current-password">
-  </label>
-
-  <button type="submit">Einloggen</button>
-</form>
-
-<p>Noch kein Konto? <a href="/register">Registrieren</a></p>

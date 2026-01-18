@@ -1,29 +1,44 @@
-<h1>{{title}}</h1>
 
+<img src="/img/4-1.jpg" alt="BackgroundImage" class="loginRegisterBackgroundImage">
+<div class="registerFormContainer">
+
+
+<div class="registerForm">
+<h1>{{title}}</h1>
+<div class="registerFormInputs">
+
+<form method="post" action="/register" class="form" novalidate>
+  
+    <input type="text" name="name" value="{{values.name}}" required autocomplete="name" autofocus placeholder="Name">
+  
+
+ 
+    <input type="email" name="email" value="{{values.email}}" required autocomplete="email" placeholder="E-Mail">
+  
+
+  
+    <input type="password" name="password" required minlength="8" autocomplete="new-password" placeholder="Password">
+  
+
+  
+    <input type="password" name="password_confirm" required minlength="8" autocomplete="new-password" placeholder="Repeat password">
+  
+
+  <button type="submit">Create Account</button>
+</form>
+</div>
+
+<p>Already have an account? <a href="/login">Login</a></p>
 {{#if errors}}
   <ul class="errors" role="alert" aria-live="polite">
     {{#each errors}}<li>{{this}}</li>{{/each}}
   </ul>
 {{/if}}
+</div>
 
-<form method="post" action="/register" class="form" novalidate>
-  <label>Name
-    <input type="text" name="name" value="{{values.name}}" required autocomplete="name" autofocus>
-  </label>
 
-  <label>E-Mail
-    <input type="email" name="email" value="{{values.email}}" required autocomplete="email">
-  </label>
 
-  <label>Passwort
-    <input type="password" name="password" required minlength="8" autocomplete="new-password">
-  </label>
 
-  <label>Passwort bestätigen
-    <input type="password" name="password_confirm" required minlength="8" autocomplete="new-password">
-  </label>
 
-  <button type="submit">Konto erstellen</button>
-</form>
+</div>
 
-<p>Schon ein Konto? <a href="/login">Zum Login</a></p>

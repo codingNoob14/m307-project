@@ -1,5 +1,16 @@
-<h1>RICHARD JONES</h1> 
-<p>THE COLLECTION</p>
+
+
+<video autoplay muted loop class="homeVideo">
+  <source src="/img/5-1.mp4" type="video/mp4">
+</video>
+<div class="collectionPageContent"> 
+
+
+<div class="collectionTextOverlay">
+
+<h1 class="collectionPageTitle">RICHARD JONES</h1> 
+<p class="collectionPageSubtitle">THE COLLECTION</p>
+</div>
 
  
 
@@ -7,11 +18,11 @@
 
   <label> 
 
-    <span style="display:block; font-size:.9rem; color:#666;">Kategorie</span> 
+    <span style="display:block; font-size:.9rem; color:#666;">Category</span> 
 
     <select name="category" onchange="this.form.submit()"> 
 
-      <option value="" {{#if (eq selectedCategory '')}}selected{{/if}}>Alle</option> 
+      <option value="" {{#if (eq selectedCategory '')}}selected{{/if}}>All</option> 
 
       {{#each categories}} 
 
@@ -35,9 +46,9 @@
 
     <select name="sort" onchange="this.form.submit()"> 
 
-      <option value="newest" {{#if (eq selectedSort 'newest')}}selected{{/if}}>Neueste zuerst</option> 
+      <option value="newest" {{#if (eq selectedSort 'newest')}}selected{{/if}}>Newest first</option> 
 
-      <option value="likes"  {{#if (eq selectedSort 'likes')}}selected{{/if}}>Meist geliked</option> 
+      <option value="likes"  {{#if (eq selectedSort 'likes')}}selected{{/if}}>Most liked</option> 
 
     </select> 
 
@@ -51,7 +62,7 @@
 
   {{#if hasFilterActive}} 
 
-    <a href="/content" style="align-self:end; font-size:.9rem;">Filter zurücksetzen</a> 
+    <a href="/content" style="align-self:end; font-size:.9rem;">Reset filter</a> 
 
   {{/if}} 
 
@@ -133,3 +144,4 @@
 {{/if}} 
 
  
+</div>
