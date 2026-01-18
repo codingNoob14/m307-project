@@ -12,63 +12,39 @@
 <p class="collectionPageSubtitle">THE COLLECTION</p>
 </div>
 
- 
+<form method="get" action="/content" class="filters">
+<div class="filterFunction"> 
+  <div class="filterSpacerCategory">
 
-<form method="get" action="/content" class="filters" style="margin:.75rem 0 1rem; display:flex; gap:.5rem; flex-wrap:wrap;"> 
-
-  <label> 
-
-    <span style="display:block; font-size:.9rem; color:#666;">Category</span> 
-
+  <label class="filtersCategory"> 
+    <span>Category</span> 
     <select name="category" onchange="this.form.submit()"> 
-
       <option value="" {{#if (eq selectedCategory '')}}selected{{/if}}>All</option> 
-
       {{#each categories}} 
-
         <option value="{{this}}" {{#if (eq ../selectedCategory this)}}selected{{/if}}>{{this}}</option> 
-
       {{/each}} 
-
     </select> 
-
   </label> 
-
- 
-
-
-
- 
-
-  <label> 
-
-    <span style="display:block; font-size:.9rem; color:#666;">Sortieren</span> 
-
+</div>
+  <div class="filterSpacerSort">
+  <label class="filtersSort"> 
+    <span>Sort</span> 
     <select name="sort" onchange="this.form.submit()"> 
-
       <option value="newest" {{#if (eq selectedSort 'newest')}}selected{{/if}}>Newest first</option> 
-
       <option value="likes"  {{#if (eq selectedSort 'likes')}}selected{{/if}}>Most liked</option> 
-
     </select> 
-
-  </label> 
-
- 
+  </label>
+  </div>
 
   <noscript><button type="submit">Anwenden</button></noscript> 
 
- 
-
   {{#if hasFilterActive}} 
-
-    <a href="/content" style="align-self:end; font-size:.9rem;">Reset filter</a> 
-
+    <a href="/content">Reset filter</a>
   {{/if}} 
+  </div>
+</form>
 
-</form> 
 
- 
 
 {{#if items.length}} 
 
@@ -88,9 +64,28 @@
 
         </figure> 
 
- 
-
         <div class="card__body"> 
+          <div class="like-section">
+            <span class="like-count">{{likeCount}}</span>
+            
+            {{#if ../currentUser}}
+              <a
+                href="/content/{{slug}}/like"
+                data-like="true"
+                data-slug="{{slug}}"
+                data-liked="{{#if userHasLiked}}true{{else}}false{{/if}}"
+                class="like-btn {{#if userHasLiked}}liked{{/if}}"
+                title="{{#if userHasLiked}}Unlike{{else}}Like{{/if}} this content"
+              >
+                {{#if userHasLiked}}❤️{{else}}🤍{{/if}}
+              </a>
+            {{else}}
+              <a href="/login?next={{encodeURIComponent '/content'}}" class="like-btn-loggedOut">
+                🤍<br>Login to Like
+              </a>
+            {{/if}}
+          </div>
+          <div class="cardText">
 
           <h3 class="card__title"> 
 
@@ -105,23 +100,21 @@
             {{category}} {{description}}
 
           </p> 
+          </div>
 
  
 
-          <a class="card__likes">❤️{{likeCount}}{{#if (gt likeCount 1)}}{{/if}} 
-
-          </a> 
  
 
           {{#if (canEdit this ../currentUser)}} 
 
             <div class="card__actions" style="margin-top:.5rem; display:flex; gap:.5rem; flex-wrap:wrap;"> 
 
-              <a class="btn btn--sm" href="/content/{{slug}}/edit">Bearbeiten</a> 
+              <a class="btn btn--sm" href="/content/{{slug}}/edit">Edit</a> 
 
               <form method="post" action="/content/{{slug}}/delete" style="display:inline;" onsubmit="return confirm('Eintrag löschen?');"> 
 
-                <button type="submit" class="btn btn--sm btn--danger">Löschen</button> 
+                <button type="submit" class="btn btn--sm btn--danger">Delete</button> 
 
               </form> 
 
@@ -130,6 +123,8 @@
           {{/if}} 
 
         </div> 
+ 
+
 
       </article> 
 

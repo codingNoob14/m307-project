@@ -9,4 +9,27 @@
 
 <p>{{item.description}}</p>
 
+<div class="like-section" style="margin: 2rem 0;">
+  <div style="display: flex; align-items: center; gap: 1rem;">
+    <span class="like-count">{{item.likeCount}} {{#if (eq item.likeCount 1)}}Like{{else}}Likes{{/if}}</span>
+    
+    {{#if currentUser}}
+      <a
+         href="/content/{{item.slug}}/like"
+         data-like="true"
+         data-slug="{{item.slug}}"
+         data-liked="{{#if item.userHasLiked}}true{{else}}false{{/if}}"
+         class="like-btn {{#if item.userHasLiked}}liked{{/if}}"
+         title="{{#if item.userHasLiked}}Unlike{{else}}Like{{/if}} this content"
+      >
+        {{#if item.userHasLiked}}❤️ Liked{{else}}🤍 Like{{/if}}
+      </a>
+    {{else}}
+      <a href="/login?next={{encodeURIComponent '/content'}}/{{item.slug}}" class="like-btn">
+        🤍 Login to Like
+      </a>
+    {{/if}}
+  </div>
+</div>
+
 <p><a href="/content">← Zur Übersicht</a></p>
