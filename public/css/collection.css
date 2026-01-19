@@ -1,0 +1,133 @@
+/*-----------------Collection Page Styles-------------------- */
+
+.collectionTextOverlay {
+  color: white;
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;   /* vertical center */
+  justify-content: center;
+  flex-direction: column;
+  z-index: 1;
+}
+
+.collectionTextOverlay h1 {
+  font-size: 50px;
+}
+
+.collectionTextOverlay p {
+  font-size: 15px;
+  font-family: 'Real Head Pro Light', sans-serif;
+  margin: 0 auto;
+}
+
+.card {
+  position: relative;
+}
+
+.card__media {
+  position: relative;
+  z-index: 0;
+}
+
+.card__media img {
+  display: flex;
+  width: 100%;
+  max-height: 100vh;
+  object-fit: cover;
+}
+
+.card__body {
+  color: white;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.like-section a {
+  font-family: 'Real Head Pro Light', sans-serif;
+  color: white;
+  text-decoration: none;
+  font-size: 30px;
+}
+.like-count {
+  font-family: 'Real Head Pro Light', sans-serif;
+  color: white;
+  text-decoration: none;
+  font-size: 30px;
+}
+
+.cardText {
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  align-items: left;
+  margin-bottom: 270px;
+  margin-left: 80px;
+}
+.card__title {
+  font-size: 150px;
+  margin-top: auto;
+}
+.card__meta {
+  font-family: 'Real Head Pro Light', sans-serif;
+  font-size: 30px;
+  text-transform: uppercase;
+}
+.filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Real Head Pro Light', sans-serif;
+  color: white;
+  padding-bottom: 50px;
+  padding-top: 50px;
+}
+
+.filterFunction select {
+  align-items: space-between;
+  background: white;
+  border: 1px solid #fff;
+  color: black;
+  padding: 0.4rem 1.6rem 0.4rem 0.6rem;
+  border-radius: 4px;
+}
+
+.filterFunction {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 210px;
+  gap: 10px;
+}
+
+.filterFunction a {
+  margin-top: 10px;
+  color: white;
+}
+
+.filterSpacerCategory {
+  width: 210px;
+}
+
+.filterSpacerCategory .filtersCategory {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.filterSpacerSort {
+  width: 210px;
+}
+
+.filterSpacerSort .filtersSort {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

@@ -1,0 +1,134 @@
+
+/* -----CONTENT UPLOAD SITE ------ */
+/* ---- Dieser Teil wurde teilweise mit KI gemacht, wegen Zeitdruck ----- */
+.content-new {
+  max-width: 760px;
+  margin: 120px auto 80px;
+  padding: 0 20px;
+  color: #111;
+  font-family: "Real Head Pro Light", "Helvetica Neue", Arial, sans-serif;
+}
+
+.content-new__card {
+  background: #f5f4f1;
+  border-radius: 18px;
+  padding: 28px 30px 32px;
+  border: 1px solid #e3e1db;
+  box-shadow: 0 18px 40px rgba(10, 10, 10, 0.2);
+}
+
+.content-new__header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 18px;
+}
+
+.content-new__title {
+  font-size: 32px;
+  font-family: "Real Head Pro Demibold", "Helvetica Neue", Arial, sans-serif;
+}
+
+.content-new__hint {
+  color: #4b5563;
+  font-size: 14px;
+}
+
+.content-new__errors {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  color: #7f1d1d;
+  font-size: 14px;
+  display: grid;
+  gap: 6px;
+}
+
+.content-new__form {
+  display: grid;
+  gap: 16px;
+}
+
+.content-new__field {
+  display: grid;
+  gap: 8px;
+}
+
+.content-new__label {
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #374151;
+}
+
+.content-new__input {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #cbd5f5;
+  padding: 12px 14px;
+  font-size: 15px;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.content-new__input:focus {
+  outline: none;
+  border-color: #1d4ed8;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.content-new__input--textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.content-new__input--select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, #1f2937 50%),
+    linear-gradient(135deg, #1f2937 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 2px),
+    calc(100% - 12px) calc(50% - 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 36px;
+}
+
+.content-new__input--file {
+  padding: 10px 12px;
+  background: #f8fafc;
+}
+
+.content-new__button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-size: 15px;
+  font-family: "Real Head Pro Demibold", "Helvetica Neue", Arial, sans-serif;
+  background: #111827;
+  color: #f9fafb;
+  cursor: pointer;
+  justify-self: start;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.content-new__button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(17, 24, 39, 0.2);
+}
+
+@media (max-width: 640px) {
+  .content-new {
+    margin-top: 90px;
+  }
+
+  .content-new__card {
+    padding: 22px 20px 26px;
+  }
+
+  .content-new__title {
+    font-size: 26px;
+  }
+}

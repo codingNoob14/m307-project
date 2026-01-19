@@ -1,0 +1,92 @@
+/*----------------------LOGIN PAGE STYLES----------------------- */
+
+/* some resets like the pre-styled buttons and links */
+
+.loginFormContainer {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+/* stylinig for the form itself  */
+.loginFormContainer {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loginForm {
+  z-index: 1;
+  gap: 20px;
+  height: 500px;
+  width: 400px;
+  background-color: black;
+  padding: 40px;
+}
+
+.loginFormInputs form {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.loginFormInputs input {
+  background-color: #707070;
+  font-family: 'Real Head Pro Demibold', sans-serif;
+  width: 100%;
+  border: none;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+.loginFormInputs input::placeholder {
+  color: white;
+}
+
+.loginFormInputs button {
+  margin-top: 80px;
+  width: 100%;
+  padding: 10px;
+  background-color: #707070;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  font-family: 'Real Head Pro Demibold', sans-serif;
+}
+.loginFormContainer h1 {
+  color: white;
+}
+
+.loginFormContainer p {
+  font-size: 14px;
+  color: white;
+  margin-top: 40px;
+  font-family: 'Real Head Pro Light', sans-serif;
+}
+
+.loginFormContainer p a {
+  color: white;
+  font-family: 'Real Head Pro Demibold', sans-serif;
+}
+
+.loginRegisterBackgroundImage {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 100%;
+  min-height: auto;
+  opacity: 0.5;
+}
+.errors {
+  position: absolute;
+  color: red;
+  font-family: 'Real Head Pro Light', sans-serif;
+  font-size: 14px;
+  list-style-type: none;
+}

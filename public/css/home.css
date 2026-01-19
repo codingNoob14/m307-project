@@ -1,0 +1,165 @@
+/* ------------------------- HOME SITE ---------------------- */
+
+/* this makes the video behind the text and the header */
+.homeVideo {
+  position: absolute;
+  z-index: 0;
+  right: 0;
+  bottom: 0;
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+.homeVideoContainer {
+  position: relative;
+  z-index: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.homeContent {
+  color: white;
+}
+
+.pageTitle {
+  color: white;
+  font-size: 50px;
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;   /* vertical center */
+  justify-content: center;
+  z-index: 1;
+}
+
+.homeContent p {
+  font-size: 15px;
+  font-family: 'Real Head Pro Light', sans-serif;
+  width: 400px;
+  margin: 0 auto;
+}
+
+.homeContent h2 {
+  font-size: 40px;
+}
+
+/* styling for "The Brand" section */
+
+.theBrand {
+  height: 300px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: black;
+}
+
+.brandHistory {
+  position: relative;
+  min-height: 60vh; /* adjust as needed */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical */
+  align-items: center;     /* horizontal */
+  text-align: center;
+  height: 700px;
+}
+
+.brandHistory .brandHistoryImg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+  opacity: 0.7;
+}
+
+/* styling for the concept section */
+.homeConcept {
+  height: 300px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: black;
+}
+.homeConcept p {
+  text-align: center;
+  width: 400px;
+  margin: 0 auto;
+}
+
+/* styling for the "era" section */
+
+.eraSection {
+  margin-top: 150px;
+  background-color: black;
+  margin-left: 150px;
+  margin-right: 150px;
+  display: flex;
+  align-items: flex-start;
+}
+.eraSection p {
+  display: block;
+  text-align: left;
+  width: 400px;
+  margin: 0;
+}
+.eraSectionText {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* vertical */
+  align-items: left;     /* horizontal */
+  text-align: left;
+  height: 700px;
+}
+
+.eraSection h2 {
+  text-align: left;
+}
+.eraImage {
+  width: 50%;
+  height: auto;
+}
+
+/* Materials section  */
+.materialsSection {
+  width: 100%;
+  margin: 0;
+  margin-top: 150px;
+  background-color: white;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+.materialsSection p {
+  display: block;
+  text-align: left;
+  width: 400px;
+  margin: 0;
+}
+.materialsSectionText {
+  color: black;
+  width: 400px;
+  margin: 0 auto;
+  align-items: center;
+  text-align: left;
+  justify-content: center;
+  height: auto;
+}
+.materialsSection h2 {
+  text-align: left;
+}
+.materialsImage {
+  max-width: 100%;
+  height: 900px;
+  object-fit: cover;
+  object-position: center top;
+}

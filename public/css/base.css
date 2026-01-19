@@ -1,0 +1,90 @@
+/* Basic reset so i dont have to wory about any margin/padding issues */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+img, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+:root {
+  --fg: #111;
+  --bg: #fff;
+  --muted: #6b7280;
+  --brand: #2563eb;
+}
+
+/* Header Styling */
+header .nav {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+  padding: 11px;
+}
+header.site-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+header .nav a {
+  text-decoration: none;
+  color: white;
+  font-family: 'Real Head Pro Demibold', sans-serif;
+}
+
+header .nav .nav-spacer {
+  flex: 1;
+}
+
+body {
+  background-color: black;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* font stuff... :) */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Real Head Pro Demibold', sans-serif;
+}
+
+/* ---foooter-------- */
+.site-footer {
+  height: 200px;
+  color: white;
+  text-decoration: none;
+  font-family: 'Real Head Pro Demibold', sans-serif;
+  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 50px;
+  gap: 200px;
+  align-items: center;
+}
+
+.footerNav a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+}
+
+.footerNav {
+  display: flex;
+  flex-direction: column;
+}

@@ -1,32 +1,43 @@
-<h1>{{title}}</h1>
+<section class="content-new">
+  <div class="content-new__card">
+    <header class="content-new__header">
+      <h1 class="content-new__title">{{title}}</h1>
+      <p class="content-new__hint">Alle Felder sind Pflicht.</p>
+    </header>
 
-{{#if errors}}
-  <ul class="errors" role="alert">
-    {{#each errors}}<li>{{this}}</li>{{/each}}
-  </ul>
-{{/if}}
+    {{#if errors}}
+      <ul class="content-new__errors" role="alert">
+        {{#each errors}}<li>{{this}}</li>{{/each}}
+      </ul>
+    {{/if}}
 
-<form method="post" action="/content" enctype="multipart/form-data" class="form" novalidate>
-  <label>Titel
-    <input type="text" name="title" value="{{values.title}}" required>
-  </label>
+    <form method="post" action="/content" enctype="multipart/form-data" class="content-new__form" novalidate>
+      <div class="content-new__field">
+        <label class="content-new__label" for="content-title">Titel</label>
+        <input class="content-new__input" type="text" id="content-title" name="title" value="{{values.title}}" required>
+      </div>
 
-  <label>Beschrieb
-    <textarea name="description" rows="5" required>{{values.description}}</textarea>
-  </label>
+      <div class="content-new__field">
+        <label class="content-new__label" for="content-description">Beschrieb</label>
+        <textarea class="content-new__input content-new__input--textarea" id="content-description" name="description" rows="5" required>{{values.description}}</textarea>
+      </div>
 
-  <label>Kategorie
-    <select name="category" required>
-      <option value="" disabled {{#unless values.category}}selected{{/unless}}>Bitte wählen</option>
-      {{#each categories}}
-        <option value="{{this}}" {{#if (eq ../values.category this)}}selected{{/if}}>{{this}}</option>
-      {{/each}}
-    </select>
-  </label>
+      <div class="content-new__field">
+        <label class="content-new__label" for="content-category">Kategorie</label>
+        <select class="content-new__input content-new__input--select" id="content-category" name="category" required>
+          <option value="" disabled {{#unless values.category}}selected{{/unless}}>Bitte waehlen</option>
+          {{#each categories}}
+            <option value="{{this}}" {{#if (eq ../values.category this)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
 
-  <label>Bild (jpg, png, webp, gif; max. 5 MB)
-    <input type="file" name="image" accept="image/*" required>
-  </label>
+      <div class="content-new__field">
+        <label class="content-new__label" for="content-image">Bild (jpg, png, webp, gif; max. 5 MB)</label>
+        <input class="content-new__input content-new__input--file" type="file" id="content-image" name="image" accept="image/*" required>
+      </div>
 
-  <button type="submit">Speichern</button>
-</form>
+      <button class="content-new__button" type="submit">Speichern</button>
+    </form>
+  </div>
+</section>
