@@ -1,7 +1,7 @@
 {
-  "name": "ssr-hbs-starter",
+  "name": "Richard Jones",
   "version": "1.0.0",
-  "description": "Kleines Express + Handlebars SSR Starterprojekt",
+  "description": "NODEJS Project about a fictional watch company",
   "type": "module",
   "license": "MIT",
   "engines": {

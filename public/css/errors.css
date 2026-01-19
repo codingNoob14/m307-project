@@ -1,0 +1,42 @@
+.error-page {
+  position: relative;
+  max-width: 720px;
+  margin: 140px auto 80px;
+  padding: 48px 44px;
+  color: #f8fafc;
+  background: linear-gradient(135deg, #0b0b0b 0%, #111827 55%, #0b0b0b 100%);
+  border: 1px solid #1f2937;
+  border-radius: 18px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+.errorPageSpace{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.error-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px;
+}
+
+.error-page h1 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  letter-spacing: 0.02em;
+  margin-bottom: 12px;
+}
+
+.error-page p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #cbd5f5;
+  max-width: 36ch;
+  font-family: 'Real Head Pro Light', sans-serif; }
+
+

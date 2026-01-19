@@ -1,17 +1,34 @@
 
-  <h1>{{title}}</h1>
+<section class="users-page">
+  <header class="users-hero">
+    <div>
+      <p class="users-eyebrow">Benutzerverwaltung</p>
+      <h1>{{title}}</h1>
+    </div>
+    {{#if users.length}}
+      <p class="users-count">{{users.length}} Nutzer</p>
+    {{/if}}
+  </header>
 
-{{#if users.length}}
-  <ul class="user-list">
-    {{#each users}}
-      <li>
-        #{{id}} – {{name}} ({{role}})
-        {{#if email}} • {{email}}{{/if}}
-        • erstellt am {{formatDate createdAt}}
-      </li>
-    {{/each}}
-  </ul>
-{{else}}
-  <p>Keine Benutzer gefunden.</p>
-{{/if}}
-
+  {{#if users.length}}
+    <ul class="user-list">
+      {{#each users}}
+        <li class="user-card">
+          <div class="user-card__header">
+            <p class="user-id">#{{id}}</p>
+            <p class="user-role">{{role}}</p>
+          </div>
+          <h2 class="user-name">{{name}}</h2>
+          {{#if email}}
+            <p class="user-email">{{email}}</p>
+          {{/if}}
+          <p class="user-date">Erstellt am {{formatDate createdAt}}</p>
+        </li>
+      {{/each}}
+    </ul>
+  {{else}}
+    <div class="user-empty">
+      <p>Keine Benutzer gefunden.</p>
+    </div>
+  {{/if}}
+</section>

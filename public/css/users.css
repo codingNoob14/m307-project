@@ -1,0 +1,137 @@
+/*----------------------USERS PAGE STYLES----------------------- */
+
+.users-page {
+  color: #f7f5ef;
+  min-height: 100vh;
+  padding: 140px 8vw 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+.users-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.12), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08), transparent 35%),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.1), transparent 45%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.users-page > * {
+  position: relative;
+  z-index: 1;
+}
+
+.users-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding-bottom: 24px;
+  margin-bottom: 40px;
+}
+
+.users-eyebrow {
+  font-family: 'Real Head Pro Light', sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 10px;
+}
+
+.users-hero h1 {
+  font-size: clamp(36px, 4vw, 64px);
+}
+
+.users-count {
+  font-family: 'Real Head Pro Light', sans-serif;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.user-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.user-card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 30px 50px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.user-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.user-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.user-id {
+  font-family: 'Real Head Pro Light', sans-serif;
+}
+
+.user-role {
+  font-family: 'Real Head Pro Demibold', sans-serif;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.user-name {
+  font-size: 26px;
+}
+
+.user-email {
+  font-family: 'Real Head Pro Light', sans-serif;
+  color: rgba(255, 255, 255, 0.75);
+  word-break: break-word;
+}
+
+.user-date {
+  font-family: 'Real Head Pro Light', sans-serif;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: auto;
+}
+
+.user-empty {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  font-family: 'Real Head Pro Light', sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+@media (max-width: 700px) {
+  .users-page {
+    padding: 120px 6vw 80px;
+  }
+
+  .users-hero {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

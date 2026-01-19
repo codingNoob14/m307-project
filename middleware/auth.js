@@ -19,7 +19,7 @@ function requireOwnerOrAdmin(req, res, next) {
     return res.redirect("/login?next=" + encodeURIComponent(req.originalUrl));
   }
   if (user.role === "admin" || (item && item.ownerId === user.id)) return next();
-  return res.status(403).render("about", { title: "403 – Kein Zugriff" });
+  return res.status(403).render("403", { title: "403 – Kein Zugriff" });
 }
 
 //function that checks if the user is an admin and if hes not then hes redirected to a 403 page
@@ -32,7 +32,7 @@ function requireAdmin(req, res, next) {
     );
   }
   if (user.role !== "admin") {
-    return res.status(403).render("about", { title: "403 – Kein Zugriff" });
+    return res.status(403).render("403", { title: "403 – Kein Zugriff" });
   }
   next();
 }
